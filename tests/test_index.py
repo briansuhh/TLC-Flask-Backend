@@ -21,7 +21,6 @@ class TestApp(TestCase):
         """
         Tests the route screen message
         """
-        rv = self.client.get('/')
+        response = self.client.get('/')
 
-        # If we recalculate the hash on the block we should get the same result as we have stored
-        self.assertEqual({"message": "Hello, Flask!"}, rv.get_json())
+        self.assertEqual({"message": "Hello, Flask!"}, response.get_json())

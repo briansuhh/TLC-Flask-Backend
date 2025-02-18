@@ -15,8 +15,7 @@ def jwt_required(f):
             payload = AuthService.decode_access_token(token)
             if payload is None:
                 return jsonify({'error': 'Invalid or expired token'}), 401
-            
-            # Attach the user identity to the request object, so it can be accessed later
+
             request.user_identity = payload['identity']
             return f(*args, **kwargs)
         

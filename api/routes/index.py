@@ -1,7 +1,6 @@
 from flask import jsonify
 from flask_smorest import Blueprint
 
-# Create a Blueprint for modular routes
 index_blueprint = Blueprint('index', __name__)
 
 @index_blueprint.route('/')

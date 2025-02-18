@@ -8,17 +8,14 @@ from flask import current_app
 class AuthService:
     @staticmethod
     def register_user(username, email, password):
-        # Hash the password before saving it
         password_hash = generate_password_hash(password)
         
-        # Create a new user instance
         new_user = User(
             username=username,
             email=email,
             password_hash=password_hash,
         )
 
-        # Add the user to the session and commit to the database
         db.session.add(new_user)
         db.session.commit()
         
@@ -26,7 +23,6 @@ class AuthService:
 
     @staticmethod
     def authenticate_user(username, password):
-        # Fetch user by email
         user = User.query.filter_by(username=username).first()
         
         if user and check_password_hash(user.password_hash, password):
@@ -43,7 +39,6 @@ class AuthService:
             "exp": datetime.now(UTC) + expires_delta if expires_delta else datetime.now(UTC) + timedelta(hours=1)
         }
         
-        # Encode the payload with the secret key
         return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
     
     @staticmethod
