@@ -2,6 +2,7 @@ from flask import Flask
 from .config import Config
 from .extensions import db, migrate, api, ma
 from .routes import index_blueprint, auth_blueprint
+from .middleware import log_request
 
 def create_app():
     app = Flask(__name__)
@@ -18,6 +19,7 @@ def create_app():
     app.config["OPENAPI_URL_PREFIX"] = "/docs"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+    app.before_request(log_request)
     api.init_app(app)
 
     api.register_blueprint(index_blueprint)

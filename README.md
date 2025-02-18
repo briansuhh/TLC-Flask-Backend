@@ -42,11 +42,12 @@ This project aims to create a solid boilerplate that can be reused for creating 
 
 ## Dependencies
 1. Flask - Python server of choice
-2. Flasgger - Used to generate Swagger documentation
+2. Flask_Smorest - Used to generate Swagger documentation
 3. Flask-Marshmallow - Serializer
-4. Apispec - Required for integration between mashmallow and flasgger
+4. Apispec - Required for integration between mashmallow and flask_smorest
 5. Poetry - Dependency and project management
 6. Unittest - Module for creating and running automated tests for integrated and unit testing
+7. Flask-Migrate - Dependency for database migrations
 
 ## Project Structure Guide
 ```
