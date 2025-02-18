@@ -56,6 +56,7 @@ project-root/
 |   |-- __init__.py
 |   |-- config.py           // Mostly contains all fetching of environment variables
 |   |-- create_app.py
+|   |-- middleware.py
 |   |-- extensions.py       // Instantiates other dependencies to be used like SQLAlchemy or Migrate
 |   |-- models/             // Contains the database representations of each entity
 |   |   |--__init__.py
