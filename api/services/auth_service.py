@@ -1,9 +1,7 @@
-import jwt
 from api.extensions import db
 from api.models.users import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, timedelta, UTC
-from flask import current_app
+from flask_jwt_extended import create_access_token, decode_token
 
 class AuthService:
     @staticmethod
@@ -30,26 +28,19 @@ class AuthService:
         return None
 
     @staticmethod
-    def create_access_token(identity, expires_delta=None):
+    def create_access_token(identity):
         """
-        Create a JWT token using PyJWT.
+        Create a JWT token using Flask-JWT-Extended.
         """
-        payload = {
-            "identity": identity,
-            "exp": datetime.now(UTC) + expires_delta if expires_delta else datetime.now(UTC) + timedelta(hours=1)
-        }
-        
-        return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+        return create_access_token(identity=identity)
     
     @staticmethod
     def decode_access_token(token):
         """
-        Decode a JWT token using PyJWT.
+        Decode a JWT token using Flask-JWT-Extended.
         """
         try:
-            payload = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
+            payload = decode_token(token)
             return payload
-        except jwt.ExpiredSignatureError:
-            return None
-        except jwt.InvalidTokenError:
+        except Exception:
             return None
