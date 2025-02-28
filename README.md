@@ -9,14 +9,14 @@ This project aims to create a solid boilerplate that can be reused for creating 
 ### Install Poetry
 `pip install poetry`
 
+### Ensure that the virtual environment is created inside the project directory
+`poetry config virtualenvs.in-project true`
+
 ### Initialize a new Poetry project
 `poetry init`
 
 ### Install dependencies
 `poetry add flask flask-sqlalchemy`
-
-### Ensure that the virtual environment is created inside the project directory
-`poetry config virtualenvs.in-project true`
 
 ### Install dependencies from poetry.lock
 `poetry install --no-root`
