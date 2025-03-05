@@ -2,7 +2,6 @@ from flask import request, jsonify
 from flask_smorest import Blueprint
 from api.services.auth_service import AuthService
 from api.schemas.users import UserSchema, UserLoginSchema
-from datetime import timedelta
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
 
@@ -19,11 +18,17 @@ def register():
     try:
         user = AuthService.register_user(
             data['username'],
+            data['first_name'],
+            data['middle_name'],
+            data['last_name'],
+            data['birth_date'],
+            data['sex'],
+            data['position'],
             data['email'],
             data['password']
         )
     except (UniqueViolation, IntegrityError) as e:
-        return jsonify({"message": "That username already exists"}), 409
+        return jsonify({"message": "That email already exists"}), 409
     except Exception as e:
         print(type(e))
         return jsonify({'error': str(e)}), 500
@@ -39,11 +44,11 @@ def login():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-    user = AuthService.authenticate_user(data['username'], data['password'])
+    user = AuthService.authenticate_user(data['email'], data['password'])
 
     if user is None:
         return jsonify({'error': 'Invalid credentials'}), 401
 
-    access_token = AuthService.create_access_token(identity=user.username, expires_delta=timedelta(hours=1))
+    access_token = AuthService.create_access_token(identity=user.username)
 
     return jsonify({'access_token': access_token}), 200
