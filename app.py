@@ -1,13 +1,13 @@
-from api import create_app  # Import the create_app function from the api module
-from dotenv import load_dotenv  # Import the load_dotenv function from the dotenv module
-from api.models import *  # Import everything from the api.models module
-import os  # Import the os module for interacting with the operating system
+from api import create_app
+from dotenv import load_dotenv
+from api.models import *
+import os
 
-os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # Set an environment variable to prevent Python from writing .pyc files
+os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
 
-load_dotenv()  # Load environment variables from a .env file
+load_dotenv()
 
-app = create_app()  # Create an instance of the Flask application
+app = create_app()
 
-if __name__ == "__main__":  # Check if the script is being run directly
-    app.run(port=5001)  # Run the Flask application on port 5001
+if __name__ == "__main__":
+    app.run(port=5000)

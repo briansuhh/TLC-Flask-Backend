@@ -27,7 +27,7 @@ def register():
             data['email'],
             data['password']
         )
-    except (UniqueViolation, IntegrityError) as e:
+    except (IntegrityError) as e:
         return jsonify({"message": "That email already exists"}), 409
     except Exception as e:
         print(type(e))
@@ -46,9 +46,11 @@ def login():
 
     user = AuthService.authenticate_user(data['email'], data['password'])
 
+    print(user)
+
     if user is None:
         return jsonify({'error': 'Invalid credentials'}), 401
 
-    access_token = AuthService.create_access_token(identity=user.username)
+    access_token = AuthService.create_access_token(identity=user)
 
     return jsonify({'access_token': access_token}), 200
