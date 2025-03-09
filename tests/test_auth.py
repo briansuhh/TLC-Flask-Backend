@@ -19,6 +19,12 @@ class AuthTestCase(TestCase):
     def test_register_successful(self):
         response = self.client.post("/auth/register", json={
             "username": "goodusername123",
+            "first_name": "Good",
+            "middle_name": "User",
+            "last_name": "Name",
+            "birth_date": "2000-01-01",
+            "sex": "M",
+            "position": "User",
             "email": "validemail123@gmail.com",
             "password": "goodpassword123"
         })
@@ -31,59 +37,81 @@ class AuthTestCase(TestCase):
             "password": "incompletepassword123"
         })
 
-        self.assertEqual(response.status_code, 400, "Registration should fail when username, email, or password is missing")
+        self.assertEqual(response.status_code, 400, "Registration should fail when required fields are missing")
 
-    def test_register_username_already_exists_fail(self):
+    def test_register_email_already_exists_fail(self):
         self.client.post("/auth/register", json={
-            "username": "alreadyexistingusername123",
-            "email": "validemail123@gmail.com",
-            "password": "alreadyexistingpassword123"
+            "username": "uniqueuser",
+            "first_name": "Unique",
+            "middle_name": "User",
+            "last_name": "Test",
+            "birth_date": "1999-05-05",
+            "sex": "F",
+            "position": "Admin",
+            "email": "duplicateemail@gmail.com",
+            "password": "securepass"
         })
 
         response = self.client.post("/auth/register", json={
-            "username": "alreadyexistingusername123",
-            "email": "validemail123@gmail.com",
-            "password": "alreadyexistingpassword123"
+            "username": "anotheruser",
+            "first_name": "Another",
+            "middle_name": "User",
+            "last_name": "Test",
+            "birth_date": "2001-07-07",
+            "sex": "M",
+            "position": "User",
+            "email": "duplicateemail@gmail.com",
+            "password": "securepass"
         })
 
-        self.assertEqual(response.status_code, 409, "Registration should fail when username already exists")
+        self.assertEqual(response.status_code, 409, "Registration should fail when email already exists")
     
     def test_login_successful(self):
         self.client.post("/auth/register", json={
             "username": "goodloginusername123",
+            "first_name": "Good",
+            "middle_name": "Login",
+            "last_name": "User",
+            "birth_date": "1998-03-03",
+            "sex": "M",
+            "position": "User",
             "email": "validemail123@gmail.com",
             "password": "goodpassword123"
         })
 
         response = self.client.post("/auth/login", json={
-            "username": "goodloginusername123",
+            "email": "validemail123@gmail.com",
             "password": "goodpassword123"
         })
 
         self.assertEqual(response.status_code, 200)
         self.assertIn("access_token", response.get_json(), "Login should return a valid JWT token")
+        print(response.get_json())
     
     def test_login_doesnt_exist_fail(self):
         response = self.client.post("/auth/login", json={
-            "username": "loginnotexistingusername123",
-            "password": "goodpassword123"
+            "email": "nonexistentemail@gmail.com",
+            "password": "randompassword"
         })
 
-        self.assertEqual(response.status_code, 401, "Login should fail when username doesn't exist")
+        self.assertEqual(response.status_code, 401, "Login should fail when email doesn't exist")
     
     def test_login_bad_password_fail(self):
         self.client.post("/auth/register", json={
             "username": "badpasswordusername123",
+            "first_name": "Bad",
+            "middle_name": "Password",
+            "last_name": "User",
+            "birth_date": "2002-09-09",
+            "sex": "F",
+            "position": "User",
             "email": "validemail123@gmail.com",
-            "password": "password123"
+            "password": "correctpassword"
         })
 
         response = self.client.post("/auth/login", json={
-            "username": "badpasswordusername123",
-            "password": "password456"
+            "email": "validemail123@gmail.com",
+            "password": "wrongpassword"
         })
 
-        # print(response.data.decode())
-
-        self.assertEqual(response.status_code, 401, "Login should fail when the password doesn't match the hashed password in the database")
-
+        self.assertEqual(response.status_code, 401, "Login should fail when the password is incorrect")
