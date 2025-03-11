@@ -14,7 +14,9 @@ class AuthTestCase(TestCase):
     def tearDown(self):
         with self.app.app_context():
             db.session.remove()
-            db.drop_all()
+            for table in reversed(db.metadata.sorted_tables):
+                db.session.execute(table.delete())
+            db.session.commit()            
 
     def test_register_successful(self):
         response = self.client.post("/auth/register", json={
