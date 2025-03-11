@@ -1,6 +1,5 @@
 from flask import request, jsonify
 from api.services.auth_service import AuthService
-from api.services.mongodb_service import MongoDbService
 from datetime import datetime, UTC
 from marshmallow import ValidationError
 from api.config import Config
@@ -63,7 +62,6 @@ def log_request():
             'username': username
         }
 
-        MongoDbService.insert_log_entry(log_entry)
     except ValidationError as e:
         return jsonify({"error": str(e)}), 422
     except Exception as e:
