@@ -3,47 +3,18 @@ from flask_smorest import Blueprint
 from api.services.supplier_service import SupplierService
 from api.schemas.suppliers import SupplierSchema
 from sqlalchemy.exc import IntegrityError
-import re
 
 supplier_blueprint = Blueprint('supplier', __name__, url_prefix="/suppliers")
-
-
-def validate_supplier_data(data):
-    """Helper function to validate supplier data based on test cases"""
-    required_fields = ["name", "email", "phone", "country_code"]
-    
-    for field in required_fields:
-        if field not in data:
-            return f"Missing required field: {field}"
-    
-    # Email validation
-    email_regex = r"^[\w\.-]+@[\w\.-]+\.\w+$"
-    if not re.match(email_regex, data["email"]):
-        return "Invalid email format."
-
-    # Phone number should be between 9 to 11 digits
-    if not (9 <= len(data["phone"]) <= 11 and data["phone"].isdigit()):
-        return "Phone number should be between 9 to 11 digits."
-
-    # Country code should be max 8 characters including '+'
-    if not (1 < len(data["country_code"]) <= 8 and data["country_code"].startswith("+") and data["country_code"][1:].isdigit()):
-        return "Country code should be a maximum of 8 digits including '+'."
-
-    return None
 
 
 @supplier_blueprint.route('/', methods=['POST'])
 def create_supplier():
     supplier_schema = SupplierSchema()
-    
+
     try:
         data = supplier_schema.load(request.json)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-
-    validation_error = validate_supplier_data(data)
-    if validation_error:
-        return jsonify({'error': validation_error}), 400
 
     try:
         supplier = SupplierService.create_supplier(
