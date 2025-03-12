@@ -21,13 +21,13 @@ def validate_supplier_data(data):
     if not re.match(email_regex, data["email"]):
         return "Invalid email format."
 
-    # Phone number should be max 11 digits
+    # Phone number should be between 9 to 11 digits
     if not (9 <= len(data["phone"]) <= 11 and data["phone"].isdigit()):
         return "Phone number should be between 9 to 11 digits."
 
-    # Country code should be max 4 characters including '+'
-    if not (len(data["country_code"]) <= 4 and data["country_code"].startswith("+") and data["country_code"][1:].isdigit()):
-        return "Country code should be a maximum of 4 digits including '+'."
+    # Country code should be max 8 characters including '+'
+    if not (1 < len(data["country_code"]) <= 8 and data["country_code"].startswith("+") and data["country_code"][1:].isdigit()):
+        return "Country code should be a maximum of 8 digits including '+'."
 
     return None
 

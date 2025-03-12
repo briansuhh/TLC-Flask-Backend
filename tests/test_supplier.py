@@ -63,10 +63,10 @@ class SupplierTestCase(TestCase):
             "name": "Egg Supplier",
             "email": "eggsupplier@gmail",
             "phone": "999111444400",
-            "country_code": "+6345"
+            "country_code": "+63-451245"
         })
 
-        self.assertEqual(response.status_code, 400, "Supplier country code should be 4 digits max (+ sign is included).")
+        self.assertEqual(response.status_code, 400, "Supplier country code should be 8 digits max (+ sign is included).")
     
     def test_create_supplier_duplicate_email_fail(self):
         self.client.post("/suppliers/", json={

@@ -22,7 +22,7 @@ def seed_suppliers():
             name="Oil Supplier",
             email="oilsupplier@gmail.com",
             phone="9991115555",
-            country_code="+63",
+            country_code="+1",
             created_at=datetime.now(UTC),
             updated_at=datetime.now(UTC)
         ),
@@ -30,7 +30,7 @@ def seed_suppliers():
             name="Rice Supplier",
             email="ricesupplier@gmail.com",
             phone="9991116666",
-            country_code="+63",
+            country_code="+44-1534",
             created_at=datetime.now(UTC),
             updated_at=datetime.now(UTC)
         )
