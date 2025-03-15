@@ -3,3 +3,4 @@ from .auth import *
 from .product import *
 from .supplier import *
 from .category import *
+from .branch import *
