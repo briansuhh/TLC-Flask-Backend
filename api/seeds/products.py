@@ -7,22 +7,22 @@ from flask.cli import with_appcontext
 @with_appcontext
 def seed_products():
     """Seed the database with initial data."""
-    product1 = Product(
-        name="Product 1",
-        variant_group_id="1",
-        sku="SKU1",
-        category_id=1
-    )
 
-    product2 = Product(
-        name="Product 2",
-        variant_group_id="2",
-        sku="SKU2",
-        category_id=2
-    )
+    products = [
+        Product(
+            name="Product 1",
+            description="Description 1",
+            price=100.00
+        ),
+        Product(
+            name="Product 2",
+            description="Description 2",
+            price=200.00
+        )
+    ]
 
-    db.session.add(product1)
-    db.session.add(product2)
+    
+    db.session.bulk_save_objects(products)
     db.session.commit()
     print("Products seeded successfully!")
 
