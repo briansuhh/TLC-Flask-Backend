@@ -1,8 +1,8 @@
 """added categories table
 
-Revision ID: 3854f8205907
+Revision ID: 00f80205e111
 Revises: 82187e18c37a
-Create Date: 2025-03-15 20:49:16.502248
+Create Date: 2025-03-15 21:36:54.517153
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3854f8205907'
+revision = '00f80205e111'
 down_revision = '82187e18c37a'
 branch_labels = None
 depends_on = None
@@ -21,6 +21,9 @@ def upgrade():
     op.create_table('categories',
     sa.Column('category_id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.Column('deleted_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('category_id'),
     sa.UniqueConstraint('name')
     )
