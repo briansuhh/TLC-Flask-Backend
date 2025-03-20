@@ -7,3 +7,4 @@ from .branch import *
 from .tag import *
 from .recipe import *
 from .inventoryitem import *
+from .outlet import *
