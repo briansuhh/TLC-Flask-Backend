@@ -7,3 +7,4 @@ from .tags import Tag
 from .recipes import Recipe
 from .inventoryitems import InventoryItem
 from .outlets import Outlet
+from .product_tags import ProductTag

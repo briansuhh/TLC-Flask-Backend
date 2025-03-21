@@ -1,9 +1,11 @@
 from api.extensions import db
 from api.models.tags import Tag
+from api.models.product_tags import ProductTag
 
 class TagService:
     @staticmethod
     def create_tag(name):
+        """Creates a new tag"""        
         new_tag = Tag(name=name)
         db.session.add(new_tag)
         db.session.commit()
@@ -34,6 +36,10 @@ class TagService:
         tag = db.session.get(Tag, tag_id)
         if not tag:
             return False
+        
+        # Ensure the tag isn't associated with any product before deletion
+        if ProductTag.query.filter_by(tag_id=tag_id).count() > 0:
+            return False  # Tag is still in use
 
         db.session.delete(tag)
         db.session.commit()

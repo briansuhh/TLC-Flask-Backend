@@ -25,8 +25,8 @@ def create_tag():
         return jsonify({'error': 'Database integrity error'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
     return jsonify({'message': f'Tag {tag.name} created successfully'}), 201
+
 
 @tag_blueprint.route('/<int:tag_id>', methods=['GET'])
 def get_tag(tag_id):

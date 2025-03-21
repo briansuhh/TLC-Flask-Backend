@@ -61,3 +61,53 @@ def delete_product(product_id):
     if not success:
         return jsonify({'error': 'Product not found'}), 404
     return jsonify({'message': 'Product deleted successfully'}), 200
+
+
+@product_blueprint.route('/<int:product_id>/tags/', methods=['POST'])
+def add_tag_to_product(product_id):
+    """Attach an existing tag to a product"""
+    data = request.get_json()
+    tag_id = data.get('tag_id')
+
+    if not tag_id:
+        return jsonify({"error": "Tag ID is required"}), 400
+
+    try:
+        success = ProductService.add_tag_to_product(product_id, tag_id)
+        if not success:
+            return jsonify({'error': 'Product or Tag not found'}), 404
+
+        return jsonify({'message': f'Tag {tag_id} added to product {product_id}'}), 201
+    except IntegrityError:
+        return jsonify({"message": "Tag is already associated with the product"}), 409
+
+
+@product_blueprint.route('/<int:product_id>/tags/', methods=['GET'])
+def get_product_tags(product_id):
+    """Get all tags associated with a product"""
+    product = ProductService.get_product_by_id(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    tags = ProductService.get_product_tags(product_id)
+    return jsonify(tags), 200
+
+@product_blueprint.route('/<int:product_id>/tags/<int:tag_id>', methods=['PUT'])
+def update_product_tag(product_id, tag_id):
+    """Update a tag associated with a product"""
+    data = request.get_json()
+    success = ProductService.update_product_tag(product_id, tag_id, data)
+    if not success:
+        return jsonify({'error': 'Product or Tag not found'}), 404
+
+    return jsonify({'message': f'Tag {tag_id} updated for product {product_id}'}), 200
+
+@product_blueprint.route('/<int:product_id>/tags/<int:tag_id>', methods=['DELETE'])
+def remove_tag_from_product(product_id, tag_id):
+    """Remove a tag from a product"""
+    success = ProductService.remove_tag_from_product(product_id, tag_id)
+    if not success:
+        return jsonify({'error': 'Product or Tag not found'}), 404
+
+    return jsonify({'message': f'Tag {tag_id} removed from product {product_id}'}), 200
+
