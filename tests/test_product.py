@@ -120,3 +120,90 @@ class ProductTestCase(TestCase):
         response = self.client.delete("/products/999")
 
         self.assertEqual(response.status_code, 404, "Should return 404 when product is not found")
+
+    
+    # Product and Tag Association
+    def test_add_tag_to_product(self):
+        self.client.post("/products/", json={
+            "name": "Beef Tapa",
+            "variant_group_id": "Beef-Tapa-01",
+            "sku": "123456789",
+            "category_id": 1
+        })
+        self.client.post("/tags/", json={"name": "Malupit na Tapa"})
+        response = self.client.post("/products/1/tags/", json={"tag_id": 1})
+        self.assertEqual(response.status_code, 201, "Tag should be added to product successfully")
+    
+    def test_add_tag_to_product_not_found(self):
+        response = self.client.post("/products/999/tags/", json={"tag_id": 1})
+        self.assertEqual(response.status_code, 404, "Should return 404 when product is not found")
+
+    def test_add_tag_to_product_duplicate(self):
+        self.client.post("/products/", json={
+            "name": "Beef Tapa",
+            "variant_group_id": "Beef-Tapa-01",
+            "sku": "123456789",
+            "category_id": 1
+        })
+        self.client.post("/tags/", json={"name": "Malupit na Tapa"})
+        self.client.post("/products/1/tags/", json={"tag_id": 1})
+        response = self.client.post("/products/1/tags/", json={"tag_id": 1})
+        self.assertEqual(response.status_code, 409, "Should return 409 when tag is already associated with the product")
+
+    def test_get_product_tags(self):
+        self.client.post("/products/", json={
+            "name": "Beef Tapa",
+            "variant_group_id": "Beef-Tapa-01",
+            "sku": "123456789",
+            "category_id": 1
+        })
+        self.client.post("/tags/", json={"name": "Malupit na Tapa"})
+        self.client.post("/products/1/tags/", json={"tag_id": 1})
+        response = self.client.get("/products/1/tags/")
+        self.assertEqual(response.status_code, 200, "Should return list of tags associated with the product")
+
+    def test_get_product_tags_not_found(self):
+        response = self.client.get("/products/999/tags/")
+        self.assertEqual(response.status_code, 404, "Should return 404 when product is not found")
+
+    def test_get_product_tags_empty(self):
+        self.client.post("/products/", json={
+            "name": "Beef Tapa",
+            "variant_group_id": "Beef-Tapa-01",
+            "sku": "123456789",
+            "category_id": 1
+        })
+        response = self.client.get("/products/1/tags/")
+        self.assertEqual(response.status_code, 200, "Should return empty list when no tags are associated with the product")
+
+    def test_update_product_tag(self):
+        self.client.post("/products/", json={
+            "name": "Beef Tapa",
+            "variant_group_id": "Beef-Tapa-01",
+            "sku": "123456789",
+            "category_id": 1
+        })
+        self.client.post("/tags/", json={"name": "Malupit na Tapa"})
+        self.client.post("/products/1/tags/", json={"tag_id": 1})
+        response = self.client.put("/products/1/tags/1", json={"tag_id": 2})
+        self.assertEqual(response.status_code, 200, "Tag should be updated successfully")
+
+    def test_update_product_tag_not_found(self):
+        response = self.client.put("/products/1/tags/999", json={"tag_id": 2})
+        self.assertEqual(response.status_code, 404, "Should return 404 when product or tag is not found")
+
+    def test_remove_tag_from_product(self):
+        self.client.post("/products/", json={
+            "name": "Beef Tapa",
+            "variant_group_id": "Beef-Tapa-01",
+            "sku": "123456789",
+            "category_id": 1
+        })
+        self.client.post("/tags/", json={"name": "Malupit na Tapa"})
+        self.client.post("/products/1/tags/", json={"tag_id": 1})
+        response = self.client.delete("/products/1/tags/1")
+        self.assertEqual(response.status_code, 200)
+    
+    def test_remove_tag_not_found(self):
+        response = self.client.delete("/products/1/tags/999")
+        self.assertEqual(response.status_code, 404)

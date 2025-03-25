@@ -10,6 +10,8 @@ class Tag(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC))
     deleted_at = db.Column(db.DateTime)
 
+    products = db.relationship('ProductTag', back_populates='tag', cascade='all, delete-orphan')
+
     def __init__(self, name):
         self.name = name
 
