@@ -8,3 +8,4 @@ from .tag import *
 from .recipe import *
 from .inventoryitem import *
 from .outlet import *
+from .branchstockcount import *

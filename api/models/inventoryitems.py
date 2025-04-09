@@ -14,6 +14,8 @@ class InventoryItem(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC))
     deleted_at = db.Column(db.DateTime)
 
+    branches = db.relationship('BranchStockCount', back_populates='item', cascade='all, delete-orphan')
+
     def __init__(self, name, cost, unit, stock_warning_level, supplier_id):
         self.name = name
         self.cost = cost

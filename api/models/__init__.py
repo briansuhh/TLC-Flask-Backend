@@ -8,3 +8,4 @@ from .recipes import Recipe
 from .inventoryitems import InventoryItem
 from .outlets import Outlet
 from .product_tags import ProductTag
+from .branchstockcount import BranchStockCount
