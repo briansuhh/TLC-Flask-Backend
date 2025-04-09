@@ -1,7 +1,7 @@
 from flask import Flask
 from .config import Config
 from .extensions import db, migrate, api, ma, jwt
-from .routes import index_blueprint, auth_blueprint, product_blueprint, supplier_blueprint, branch_blueprint, tag_blueprint, category_blueprint, recipe_blueprint, inventory_item_blueprint, outlet_blueprint
+from .routes import index_blueprint, auth_blueprint, product_blueprint, supplier_blueprint, branch_blueprint, tag_blueprint, category_blueprint, recipe_blueprint, inventory_item_blueprint, outlet_blueprint, branch_stock_count_blueprint
 from .seeds import register_commands
 
 def create_app():
@@ -26,5 +26,6 @@ def create_app():
     api.register_blueprint(recipe_blueprint)
     api.register_blueprint(inventory_item_blueprint)
     api.register_blueprint(outlet_blueprint)
+    api.register_blueprint(branch_stock_count_blueprint)
     
     return app

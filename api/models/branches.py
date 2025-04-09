@@ -11,6 +11,8 @@ class Branch(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC))
     deleted_at = db.Column(db.DateTime)
 
+    inventoryitems = db.relationship('BranchStockCount', back_populates='branch', cascade='all, delete-orphan')
+
     def __init__(self, name, address):
         self.name = name
         self.address = address
