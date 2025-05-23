@@ -14,8 +14,8 @@ class BranchStockCount(db.Model):
 
     __table_args__ = (db.UniqueConstraint('branch_id', 'item_id', name='unique_branch_item'),)
 
-    branch = db.relationship('Branch', back_populates='inventoryitems')
-    item = db.relationship('InventoryItem', back_populates='branches')
+    branch = db.relationship('Branch', back_populates='branchstockcounts')
+    item = db.relationship('InventoryItem', back_populates='branchstockcounts')
 
     def __init__(self, branch_id, item_id, in_stock, ordered_qty):
         self.branch_id = branch_id

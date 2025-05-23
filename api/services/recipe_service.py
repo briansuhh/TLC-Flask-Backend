@@ -16,7 +16,7 @@ class RecipeService:
 
     @staticmethod
     def get_all_recipes():
-        return [recipe.to_dict() for recipe in Recipe.query.all()]
+        return Recipe.query.all()
 
     @staticmethod
     def get_recipe_by_product_item(product_id, item_id):
