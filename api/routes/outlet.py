@@ -38,7 +38,8 @@ def get_outlet(outlet_id):
 @outlet_blueprint.route('/', methods=['GET'])
 def get_all_outlets():
     outlets = OutletService.get_all_outlets()
-    return jsonify(outlets), 200
+    outlet_schema = OutletSchema(many=True)
+    return jsonify(outlet_schema.dump(outlets)), 200
 
 @outlet_blueprint.route('/<int:outlet_id>', methods=['PUT'])
 def update_outlet(outlet_id):

@@ -15,7 +15,7 @@ class OutletService:
 
     @staticmethod
     def get_all_outlets():
-        return [outlet.to_dict() for outlet in Outlet.query.all()]
+        return Outlet.query.all()
 
     @staticmethod
     def get_outlet_by_id(outlet_id):
