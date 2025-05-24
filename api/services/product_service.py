@@ -18,7 +18,7 @@ class ProductService:
 
     @staticmethod
     def get_all_products():
-        return [product.to_dict() for product in Product.query.all()]
+        return Product.query.all()
 
     @staticmethod
     def get_product_by_id(product_id):

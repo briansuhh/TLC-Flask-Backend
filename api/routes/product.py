@@ -40,7 +40,8 @@ def get_product(product_id):
 @product_blueprint.route('/', methods=['GET'])
 def get_all_products():
     products = ProductService.get_all_products()
-    return jsonify(products), 200
+    product_schema = ProductSchema(many=True)
+    return jsonify(product_schema.dump(products)), 200
 
 @product_blueprint.route('/<int:product_id>', methods=['PUT'])
 def update_product(product_id):

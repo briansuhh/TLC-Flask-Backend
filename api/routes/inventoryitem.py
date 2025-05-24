@@ -42,7 +42,8 @@ def get_inventory_item(item_id):
 @inventory_item_blueprint.route('/', methods=['GET'])
 def get_all_inventory_items():
     inventory_items = InventoryItemService.get_all_inventory_items()
-    return jsonify(inventory_items), 200
+    inventory_item_schema = InventorySchema(many=True)
+    return jsonify(inventory_item_schema.dump(inventory_items)), 200
 
 @inventory_item_blueprint.route('/<int:item_id>', methods=['PUT'])
 def update_inventory_item(item_id):

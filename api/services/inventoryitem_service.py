@@ -21,7 +21,7 @@ class InventoryItemService:
     @staticmethod
     def get_all_inventory_items():
         # Retrieve all inventory items and return as a list of dictionaries
-        return [item.to_dict() for item in InventoryItem.query.all()]
+        return InventoryItem.query.all()
     
     @staticmethod
     def get_inventory_item_by_id(item_id):
