@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from .config import Config
 from .extensions import db, migrate, api, ma, jwt
 from .routes import index_blueprint, auth_blueprint, product_blueprint, supplier_blueprint, branch_blueprint, tag_blueprint, category_blueprint, recipe_blueprint, inventory_item_blueprint, outlet_blueprint, branch_stock_count_blueprint
@@ -6,6 +7,11 @@ from .seeds import register_commands
 
 def create_app():
     app = Flask(__name__)
+    # Enable CORS for all domains on all routes (not recommended for production)
+    CORS(app)
+
+    # Or enable CORS for specific domains only (recommended for production)
+    # CORS(app, resources={r"/*": {"origins": ["https://flutter-frontend.example.com", "https://angular-frontend.example.com"]}})
     app.config.from_object(Config)
 
     db.init_app(app)

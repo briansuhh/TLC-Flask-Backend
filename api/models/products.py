@@ -14,6 +14,7 @@ class Product(db.Model):
     deleted_at = db.Column(db.DateTime)
 
     tags = db.relationship('ProductTag', back_populates='product', cascade='all, delete-orphan')
+    recipes = db.relationship('Recipe', back_populates='product', cascade='all, delete-orphan')
 
     def __init__(self, name, variant_group_id, sku, category_id):
         self.name = name
