@@ -16,6 +16,13 @@ class OutletService:
     @staticmethod
     def get_all_outlets():
         return Outlet.query.all()
+    
+    @staticmethod
+    def get_outlets_by_product_id(product_id):
+        if not product_id:
+            raise ValueError("Product ID must be provided")
+        
+        return Outlet.query.filter_by(product_id=product_id).all()
 
     @staticmethod
     def get_outlet_by_id(outlet_id):
