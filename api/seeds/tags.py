@@ -1,14 +1,22 @@
 import click
 from api.extensions import db
-from api.models.categories import Tag
+from api.models.tags import Tag
 from flask.cli import with_appcontext
 
 @click.command(name='seed_tags')
 @with_appcontext
 def seed_tags():
-    tags = ['Masarap', 'Healthy', 'Affordable', 'Expensive']
-    for tag in tags:
-        db.session.add(Tag(name=tag))
+    """Seed the database with initial Tag data."""
+    
+    tags = [
+        Tag(name="Masarap"),
+        Tag(name="Healthy"),
+        Tag(name="Affordable"),
+        Tag(name="Expensive")
+    ]
+    
+    # Bulk save the Tag objects to the database
+    db.session.bulk_save_objects(tags)
     db.session.commit()
     click.echo('Tags seeded!')
 

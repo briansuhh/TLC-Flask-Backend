@@ -12,21 +12,15 @@ def seed_branches():
     branches = [
         Branch(
             name="TLC Mandaluyong",
-            address="124 Mandaluyong mandaluyon mandaluyong",
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            address="124 Mandaluyong mandaluyon mandaluyong"
         ),
         Branch(
             name="TLC Manila",
-            address="124 Manila manila manila",
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            address="124 Manila manila manila"
         ),
         Branch(
             name="TLC San Juan",
-            address="124 Sanjuan sanjuan sanjuan",
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            address="124 Sanjuan sanjuan sanjuan"
         )
     ]
 
