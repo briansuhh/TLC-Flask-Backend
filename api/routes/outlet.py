@@ -37,7 +37,18 @@ def get_outlet(outlet_id):
 
 @outlet_blueprint.route('/', methods=['GET'])
 def get_all_outlets():
-    outlets = OutletService.get_all_outlets()
+    # Check for product_id query parameter
+    product_id = request.args.get('product_id')
+    
+    if product_id:
+        try:
+            product_id = int(product_id)
+            outlets = OutletService.get_outlets_by_product_id(product_id)
+        except ValueError:
+            return jsonify({'error': 'product_id must be an integer'}), 400
+    else:
+        outlets = OutletService.get_all_outlets()
+    
     outlet_schema = OutletSchema(many=True)
     return jsonify(outlet_schema.dump(outlets)), 200
 
