@@ -3,6 +3,7 @@ from flask_cors import CORS
 from .config import Config
 from .extensions import db, migrate, api, ma, jwt
 from .routes import index_blueprint, auth_blueprint, product_blueprint, supplier_blueprint, branch_blueprint, tag_blueprint, category_blueprint, recipe_blueprint, inventory_item_blueprint, outlet_blueprint, branch_stock_count_blueprint
+from .seeds.inventoryitems import register_commands as register_inventory_items
 from .seeds.products import register_commands as register_products
 from .seeds.outlets import register_commands as register_outlets
 
@@ -21,6 +22,7 @@ def create_app():
     jwt.init_app(app)
     api.init_app(app)
     
+    register_inventory_items(app)
     register_products(app)
     register_outlets(app)
     
