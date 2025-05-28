@@ -11,19 +11,19 @@ def seed_recipes():
     recipes = [
         Recipe(
             product_id=1, 
-            item_id=101,  
+            item_id=1,  
             quantity=10.5,
             isTakeout=True
         ),
         Recipe(
             product_id=2, 
-            item_id=102,  
+            item_id=2,  
             quantity=20.0,
             isTakeout=False
         ),
         Recipe(
             product_id=3, 
-            item_id=103, 
+            item_id=3, 
             quantity=15.0,
             isTakeout=True
         )

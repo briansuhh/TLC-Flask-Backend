@@ -15,25 +15,19 @@ def seed_branch_stock_counts():
             branch_id=1,  # Assuming "TLC Mandaluyong" has ID 1
             item_id=1,    # Assuming "Item 1" has ID 1
             in_stock=100.0,
-            ordered_qty=10.0,
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            ordered_qty=10.0
         ),
         BranchStockCount(
             branch_id=2,  # Assuming "TLC Manila" has ID 2
             item_id=2,    # Assuming "Item 2" has ID 2
             in_stock=50.0,
-            ordered_qty=20.0,
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            ordered_qty=20.0
         ),
         BranchStockCount(
             branch_id=3,  # Assuming "TLC San Juan" has ID 3
             item_id=3,    # Assuming "Item 3" has ID 3
             in_stock=30.0,
-            ordered_qty=5.0,
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            ordered_qty=5.0
         )
     ]
     

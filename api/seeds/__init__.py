@@ -1,2 +1,9 @@
 from .products import register_commands as register_products
 from .outlets import register_commands as register_outlets
+from .suppliers import register_commands as register_suppliers
+from .recipes import register_commands as register_recipes
+from .inventoryitems import register_commands as register_inventory_items
+from .branches import register_commands as register_branches
+from .branchstockcounts import register_commands as register_branch_stock_counts
+from .categories import register_commands as register_categories
+from .tags import register_commands as register_tags

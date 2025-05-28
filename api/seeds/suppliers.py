@@ -2,7 +2,6 @@ import click
 from api.extensions import db
 from api.models.suppliers import Supplier
 from flask.cli import with_appcontext
-from datetime import datetime, UTC
 
 @click.command("seed_suppliers")
 @with_appcontext
@@ -14,25 +13,19 @@ def seed_suppliers():
             name="Egg Supplier",
             email="eggsupplier@gmail.com",
             phone="9991114444",
-            country_code="+63",
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            country_code="+63"
         ),
         Supplier(
             name="Oil Supplier",
             email="oilsupplier@gmail.com",
             phone="9991115555",
-            country_code="+1",
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            country_code="+1"
         ),
         Supplier(
             name="Rice Supplier",
             email="ricesupplier@gmail.com",
             phone="9991116666",
-            country_code="+44-1534",
-            created_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC)
+            country_code="+44-1534"
         )
     ]
 

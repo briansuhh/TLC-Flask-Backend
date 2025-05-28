@@ -6,20 +6,21 @@ from flask.cli import with_appcontext
 @click.command("seed_categories")
 @with_appcontext
 def seed_categories():
-    """Seed the database with initial data."""
-    category1 = Category(
-        name="Main Meals"
-    )
+    """Seed the database with initial Category data."""
 
-    category2 = Category(
-        name="Desserts"
-    )
+    categories = [
+        Category(name="Main Meals"),
+        Category(name="Desserts"),
+        Category(name="Appetizers"),
+        Category(name="Beverages"),
+        Category(name="Salads")
+    ]
 
-    db.session.add(category1)
-    db.session.add(category2)
+    # Bulk save the Category objects to the database
+    db.session.bulk_save_objects(categories)
     db.session.commit()
     print("Categories seeded successfully!")
-    
+
 # Register CLI command with Flask
 def register_commands(app):
     app.cli.add_command(seed_categories)
