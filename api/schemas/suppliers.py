@@ -1,6 +1,7 @@
 from marshmallow import Schema, fields, validate
 
 class SupplierSchema(Schema):
+    id = fields.Int(required=True, attribute="supplier_id")
     name = fields.Str(required=True, validate=validate.Length(min=3, max=50))
     email = fields.Str(required=True, validate=validate.Email())
     phone = fields.Str(required=True, validate=validate.Length(max=11))
