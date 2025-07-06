@@ -9,11 +9,11 @@ def seed_categories():
     """Seed the database with initial Category data."""
 
     categories = [
-        Category(name="Main Meals"),
-        Category(name="Desserts"),
-        Category(name="Appetizers"),
-        Category(name="Beverages"),
-        Category(name="Salads")
+        Category(name="All Day Breakfast"),
+        Category(name="Bestsellers"),
+        Category(name="Whole Cakes"),
+        Category(name="Cake Slices"),
+        Category(name="Drinks")
     ]
 
     # Bulk save the Category objects to the database
