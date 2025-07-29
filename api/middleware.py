@@ -15,11 +15,12 @@ def jwt_required(f):
             return jsonify({'error': 'Token is missing'}), 401
 
         try:
+            token = token.split(" ")[1]
             payload = AuthService.decode_access_token(token)
             if payload is None:
                 return jsonify({'error': 'Invalid or expired token'}), 401
 
-            request.user_identity = payload['identity']
+            request.user_identity = payload['sub']
             return f(*args, **kwargs)
         
         except Exception as e:

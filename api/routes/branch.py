@@ -3,11 +3,13 @@ from flask_smorest import Blueprint
 from api.services.branch_service import BranchService
 from api.schemas.branches import BranchSchema
 from sqlalchemy.exc import IntegrityError
+from api.middleware import jwt_required
 
 branch_blueprint = Blueprint('branch', __name__, url_prefix="/branches")
 
 
 @branch_blueprint.route('/', methods=['POST'])
+@jwt_required
 def create_branch():
     branch_schema = BranchSchema()
 
@@ -34,6 +36,7 @@ def create_branch():
 
 
 @branch_blueprint.route('/<int:branch_id>', methods=['GET'])
+@jwt_required
 def get_branch(branch_id):
     branch = BranchService.get_branch_by_id(branch_id)
     if not branch:
@@ -44,6 +47,7 @@ def get_branch(branch_id):
 
 
 @branch_blueprint.route('/', methods=['GET'])
+@jwt_required
 def get_all_branch():
     branches = BranchService.get_all_branches()
     branch_schema = BranchSchema(many=True)
@@ -51,6 +55,7 @@ def get_all_branch():
 
 
 @branch_blueprint.route('/<int:branch_id>', methods=['PUT'])
+@jwt_required
 def update_branch(branch_id):
     branch_schema = BranchSchema(partial=True)
 
@@ -67,6 +72,7 @@ def update_branch(branch_id):
 
 
 @branch_blueprint.route('/<int:branch_id>', methods=['DELETE'])
+@jwt_required
 def delete_branch(branch_id):
     success = BranchService.delete_branch(branch_id)
     if not success:

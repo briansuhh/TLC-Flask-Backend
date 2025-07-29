@@ -3,6 +3,9 @@ from api.extensions import db
 from api.models.users import User
 from flask.cli import with_appcontext
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+
+password_hash = generate_password_hash("password")
 
 @click.command("seed_users")
 @with_appcontext
@@ -18,7 +21,7 @@ def seed_users():
             sex="M",
             position="Cashier",
             email="trialcashier1@example.com",
-            password_hash="hashedpassword"
+            password_hash=password_hash
         ),
         User(
             username="test",
@@ -28,8 +31,8 @@ def seed_users():
             birth_date=datetime.strptime("2003-06-22", "%Y-%m-%d"),
             sex="M",
             position="Cashier",
-            email="trialcashier1@example.com",
-            password_hash="hashedpassword"
+            email="trialcashier2@example.com",
+            password_hash=password_hash
         )
     ]
 

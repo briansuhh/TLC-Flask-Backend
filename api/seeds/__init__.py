@@ -7,3 +7,4 @@ from .branches import register_commands as register_branches
 from .branchstockcounts import register_commands as register_branch_stock_counts
 from .categories import register_commands as register_categories
 from .tags import register_commands as register_tags
+from .users import register_commands as register_user

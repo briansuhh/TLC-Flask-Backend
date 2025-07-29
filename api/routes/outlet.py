@@ -3,10 +3,12 @@ from flask_smorest import Blueprint
 from api.services.outlet_service import OutletService
 from api.schemas.outlets import OutletSchema
 from sqlalchemy.exc import IntegrityError
+from api.middleware import jwt_required
 
 outlet_blueprint = Blueprint('outlet', __name__, url_prefix="/outlets")
 
 @outlet_blueprint.route('/', methods=['POST'])
+@jwt_required
 def create_outlet():
     outlet_schema = OutletSchema()
     try:
@@ -28,6 +30,7 @@ def create_outlet():
     return jsonify({'message': f'Outlet {outlet.name} created successfully'}), 201
 
 @outlet_blueprint.route('/<int:outlet_id>', methods=['GET'])
+@jwt_required
 def get_outlet(outlet_id):
     outlet = OutletService.get_outlet_by_id(outlet_id)
     if not outlet:
@@ -36,6 +39,7 @@ def get_outlet(outlet_id):
     return jsonify(outlet_schema.dump(outlet)), 200
 
 @outlet_blueprint.route('/', methods=['GET'])
+@jwt_required
 def get_all_outlets():
     # Check for product_id query parameter
     product_id = request.args.get('product_id')
@@ -53,6 +57,7 @@ def get_all_outlets():
     return jsonify(outlet_schema.dump(outlets)), 200
 
 @outlet_blueprint.route('/<int:outlet_id>', methods=['PUT'])
+@jwt_required
 def update_outlet(outlet_id):
     outlet_schema = OutletSchema(partial=True)
     try:
@@ -66,6 +71,7 @@ def update_outlet(outlet_id):
     return jsonify({'message': f'Outlet {outlet.name} updated successfully'}), 200
 
 @outlet_blueprint.route('/<int:outlet_id>', methods=['DELETE'])
+@jwt_required
 def delete_outlet(outlet_id):
     success = OutletService.delete_outlet(outlet_id)
     if not success:
