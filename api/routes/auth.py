@@ -19,7 +19,7 @@ def register():
         user = AuthService.register_user(
             data['username'],
             data['first_name'],
-            data['middle_name'],
+            data.get('middle_name'),
             data['last_name'],
             data['birth_date'],
             data['sex'],

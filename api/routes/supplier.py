@@ -3,11 +3,13 @@ from flask_smorest import Blueprint
 from api.services.supplier_service import SupplierService
 from api.schemas.suppliers import SupplierSchema
 from sqlalchemy.exc import IntegrityError
+from api.middleware import jwt_required
 
 supplier_blueprint = Blueprint('supplier', __name__, url_prefix="/suppliers")
 
 
 @supplier_blueprint.route('/', methods=['POST'])
+@jwt_required
 def create_supplier():
     supplier_schema = SupplierSchema()
 
@@ -36,6 +38,7 @@ def create_supplier():
 
 
 @supplier_blueprint.route('/<int:supplier_id>', methods=['GET'])
+@jwt_required
 def get_supplier(supplier_id):
     supplier = SupplierService.get_supplier_by_id(supplier_id)
     if not supplier:
@@ -46,6 +49,7 @@ def get_supplier(supplier_id):
 
 
 @supplier_blueprint.route('/', methods=['GET'])
+@jwt_required
 def get_all_suppliers():
     suppliers = SupplierService.get_all_suppliers()
     supplier_schema = SupplierSchema(many=True)
@@ -53,6 +57,7 @@ def get_all_suppliers():
 
 
 @supplier_blueprint.route('/<int:supplier_id>', methods=['PUT'])
+@jwt_required
 def update_supplier(supplier_id):
     supplier_schema = SupplierSchema(partial=True)
 
@@ -69,6 +74,7 @@ def update_supplier(supplier_id):
 
 
 @supplier_blueprint.route('/<int:supplier_id>', methods=['DELETE'])
+@jwt_required
 def delete_supplier(supplier_id):
     success = SupplierService.delete_supplier(supplier_id)
     if not success:

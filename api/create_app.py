@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+from .middleware import jwt_required
 from .config import Config
 from .extensions import db, migrate, api, ma, jwt
 from .routes import index_blueprint, auth_blueprint, product_blueprint, supplier_blueprint, branch_blueprint, tag_blueprint, category_blueprint, recipe_blueprint, inventory_item_blueprint, outlet_blueprint, branch_stock_count_blueprint
@@ -12,6 +13,7 @@ from .seeds.branches import register_commands as register_branches
 from .seeds.branchstockcounts import register_commands as register_branch_stock_counts
 from .seeds.categories import register_commands as register_categories
 from .seeds.tags import register_commands as register_tags
+from .seeds.users import register_commands as register_users
 
 def create_app():
     app = Flask(__name__)
@@ -27,7 +29,14 @@ def create_app():
     ma.init_app(app)
     jwt.init_app(app)
     api.init_app(app)
-    
+
+    # @app.before_request
+    # def check_authentication():
+    #     unprotected_endpoints = ["/auth/login"]
+    #     if request.path not in unprotected_endpoints: 
+    #         jwt_required(request)
+        
+        
     register_products(app)
     register_outlets(app)
     register_suppliers(app)
@@ -37,6 +46,7 @@ def create_app():
     register_branch_stock_counts(app)
     register_categories(app)
     register_tags(app)
+    register_users(app)
     
     api.register_blueprint(index_blueprint)
     api.register_blueprint(product_blueprint)

@@ -39,7 +39,7 @@ class AuthService:
         Create a JWT token using Flask-JWT-Extended.
         """
         return create_access_token(
-            identity=identity.id,
+            identity=str(identity.id),
             additional_claims={
                 "username": identity.username,
                 "email": identity.email,
@@ -55,5 +55,5 @@ class AuthService:
         try:
             payload = decode_token(token)
             return payload
-        except Exception:
-            return None
+        except Exception as e:
+            return e

@@ -3,10 +3,12 @@ from flask_smorest import Blueprint
 from api.services.product_service import ProductService
 from api.schemas.products import ProductSchema
 from sqlalchemy.exc import IntegrityError
+from api.middleware import jwt_required
 
 product_blueprint = Blueprint('product', __name__, url_prefix="/products")
 
 @product_blueprint.route('/', methods=['POST'])
+@jwt_required
 def create_product():
     product_schema = ProductSchema()
     try:
@@ -30,6 +32,7 @@ def create_product():
     return jsonify({'message': f'Product {product.name} created successfully'}), 201
 
 @product_blueprint.route('/<int:product_id>', methods=['GET'])
+@jwt_required
 def get_product(product_id):
     product = ProductService.get_product_by_id(product_id)
     if not product:
@@ -38,12 +41,14 @@ def get_product(product_id):
     return jsonify(product_schema.dump(product)), 200
 
 @product_blueprint.route('/', methods=['GET'])
+@jwt_required
 def get_all_products():
     products = ProductService.get_all_products()
     product_schema = ProductSchema(many=True)
     return jsonify(product_schema.dump(products)), 200
 
 @product_blueprint.route('/<int:product_id>', methods=['PUT'])
+@jwt_required
 def update_product(product_id):
     product_schema = ProductSchema(partial=True)
     try:
@@ -57,6 +62,7 @@ def update_product(product_id):
     return jsonify({'message': f'Product {product.name} updated successfully'}), 200
 
 @product_blueprint.route('/<int:product_id>', methods=['DELETE'])
+@jwt_required
 def delete_product(product_id):
     success = ProductService.delete_product(product_id)
     if not success:
@@ -65,6 +71,7 @@ def delete_product(product_id):
 
 
 @product_blueprint.route('/<int:product_id>/tags/', methods=['POST'])
+@jwt_required
 def add_tag_to_product(product_id):
     """Attach an existing tag to a product"""
     data = request.get_json()
@@ -84,6 +91,7 @@ def add_tag_to_product(product_id):
 
 
 @product_blueprint.route('/<int:product_id>/tags/', methods=['GET'])
+@jwt_required
 def get_product_tags(product_id):
     """Get all tags associated with a product"""
     product = ProductService.get_product_by_id(product_id)
@@ -94,6 +102,7 @@ def get_product_tags(product_id):
     return jsonify(tags), 200
 
 @product_blueprint.route('/<int:product_id>/tags/<int:tag_id>', methods=['PUT'])
+@jwt_required
 def update_product_tag(product_id, tag_id):
     """Update a tag associated with a product"""
     data = request.get_json()
@@ -104,6 +113,7 @@ def update_product_tag(product_id, tag_id):
     return jsonify({'message': f'Tag {tag_id} updated for product {product_id}'}), 200
 
 @product_blueprint.route('/<int:product_id>/tags/<int:tag_id>', methods=['DELETE'])
+@jwt_required
 def remove_tag_from_product(product_id, tag_id):
     """Remove a tag from a product"""
     success = ProductService.remove_tag_from_product(product_id, tag_id)

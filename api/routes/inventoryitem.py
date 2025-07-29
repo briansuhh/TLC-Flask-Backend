@@ -3,11 +3,13 @@ from flask_smorest import Blueprint
 from api.services.inventoryitem_service import InventoryItemService 
 from api.schemas.inventoryitems import InventorySchema  
 from sqlalchemy.exc import IntegrityError
+from api.middleware import jwt_required
 
 # Define Blueprint for Inventory Items
 inventory_item_blueprint = Blueprint('inventory_item', __name__, url_prefix="/inventory-items")
 
 @inventory_item_blueprint.route('/', methods=['POST'])
+@jwt_required
 def create_inventory_item():
     inventory_item_schema = InventorySchema()  # Use InventorySchema for validation
     try:
@@ -32,6 +34,7 @@ def create_inventory_item():
     return jsonify({'message': f'Inventory item {inventory_item.name} created successfully'}), 201
 
 @inventory_item_blueprint.route('/<int:item_id>', methods=['GET'])
+@jwt_required
 def get_inventory_item(item_id):
     inventory_item = InventoryItemService.get_inventory_item_by_id(item_id)
     if not inventory_item:
@@ -40,12 +43,14 @@ def get_inventory_item(item_id):
     return jsonify(inventory_item_schema.dump(inventory_item)), 200
 
 @inventory_item_blueprint.route('/', methods=['GET'])
+@jwt_required
 def get_all_inventory_items():
     inventory_items = InventoryItemService.get_all_inventory_items()
     inventory_item_schema = InventorySchema(many=True)
     return jsonify(inventory_item_schema.dump(inventory_items)), 200
 
 @inventory_item_blueprint.route('/<int:item_id>', methods=['PUT'])
+@jwt_required
 def update_inventory_item(item_id):
     inventory_item_schema = InventorySchema(partial=True)
     try:
@@ -59,6 +64,7 @@ def update_inventory_item(item_id):
     return jsonify({'message': f'Inventory item {inventory_item.name} updated successfully'}), 200
 
 @inventory_item_blueprint.route('/<int:item_id>', methods=['DELETE'])
+@jwt_required
 def delete_inventory_item(item_id):
     success = InventoryItemService.delete_inventory_item(item_id)
     if not success:
